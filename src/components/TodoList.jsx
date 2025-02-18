@@ -1,7 +1,10 @@
 import React from 'react';
-import Button from './Button';
+import { useState } from 'react';
 
-const TodoList = ({ backgroundColor, title }) => {
+import Button from './Button';
+import StatusDropDown from './StatusDropDown';
+
+const TodoList = ({ backgroundColor, title, todos }) => {
     return (
         <div className="todo-lists">
             <div
@@ -10,9 +13,13 @@ const TodoList = ({ backgroundColor, title }) => {
             >
                 <h2 className="todo-list-title">{title}</h2>
                 <ul className="todo-list-group">
-                    <li className="todo-list">Todo1<Button backgroundColor='pink' text={'着手'} /></li>
-                    <li className="todo-list">Todo2</li>
-                    <li className="todo-list">Todo3</li>
+                    {todos.map((todo, index) => (
+                        <li key={index} className="todo-list">
+                            {todo}
+                            <StatusDropDown />
+                            <Button backgroundColor="pink" text="削除" />
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
