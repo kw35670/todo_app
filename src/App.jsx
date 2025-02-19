@@ -12,13 +12,24 @@ const App = () => {
         'todo2',
         'todo3',
     ]);
-    const [todoInProgress, setTodoInProgress] = useState([]);
+    const [todoInProgress, setTodoInProgress] = useState([
+        'todo4',
+        'todo5',
+        'todo6',
+    ]);
     const [todoCompleted, setTodoCompleted] = useState([]);
 
     const onChangeInput = (e) => {
         setText(e.target.value);
     };
-    const onClickAdd = () => {};
+    const onClickAdd = () => {
+        if (text.trim() === '') {
+            alert('空白は許可されていません');
+            return;
+        }
+        setTodoNotStarted([...todoNotStarted, text]);
+        setText('');
+    };
     return (
         <>
             <div className="container">
@@ -32,16 +43,35 @@ const App = () => {
                     backgroundColor="red"
                     title={'未着手'}
                     todos={todoNotStarted}
+                    notStarted={todoNotStarted}
+                    inProgress={todoInProgress}
+                    completed={todoCompleted}
+                    setNotStarted={setTodoNotStarted}
+                    setInProgress={setTodoInProgress}
+                    setCompleted={setTodoCompleted}
                 />
                 <TodoList
                     backgroundColor="blue"
                     title={'着手中'}
                     todos={todoInProgress}
+                    notStarted={todoNotStarted}
+                    inProgress={todoInProgress}
+                    completed={todoCompleted}
+                    setNotStarted={setTodoNotStarted}
+                    setInProgress={setTodoInProgress}
+                    setCompleted={setTodoCompleted}
                 />
+
                 <TodoList
                     backgroundColor="green"
                     title={'完了'}
                     todos={todoCompleted}
+                    notStarted={todoNotStarted}
+                    inProgress={todoInProgress}
+                    completed={todoCompleted}
+                    setNotStarted={setTodoNotStarted}
+                    setInProgress={setTodoInProgress}
+                    setCompleted={setTodoCompleted}
                 />
             </div>
         </>
