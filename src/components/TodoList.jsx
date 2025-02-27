@@ -5,20 +5,28 @@ import StatusDropDown from './StatusDropDown';
 const TodoList = ({
     backgroundColor,
     title,
-    todos = [], // デフォルト値を設定して `undefined` エラー回避
-    notStarted,
-    inProgress,
-    completed,
+    todos = [],
+    notStarted = [], // undefined を防ぐ
+    inProgress = [], // undefined を防ぐ
+    completed = [], // undefined を防ぐ
     setNotStarted,
     setInProgress,
     setCompleted,
 }) => {
+    // タスクを削除する関数
+    const onClickDelete = (index) => {
+        if (title === '未着手') {
+            setNotStarted((prev) => prev.filter((_, i) => i !== index));
+        } else if (title === '着手中') {
+            setInProgress((prev) => prev.filter((_, i) => i !== index));
+        } else if (title === '完了') {
+            setCompleted((prev) => prev.filter((_, i) => i !== index));
+        }
+    };
+
     return (
         <div className="todo-lists">
-            <div
-                className="todo-block"
-                style={{ backgroundColor: backgroundColor }}
-            >
+            <div className="todo-block" style={{ backgroundColor }}>
                 <h2 className="todo-list-title">{title}</h2>
                 <ul className="todo-list-group">
                     {todos.map((todo, index) => (
@@ -27,14 +35,18 @@ const TodoList = ({
                             <StatusDropDown
                                 index={index}
                                 todo={todo}
-                                notStarted={notStarted}
-                                inProgress={inProgress}
-                                completed={completed}
+                                notStarted={notStarted} // 空配列がデフォルトで入る
+                                inProgress={inProgress} // 空配列がデフォルトで入る
+                                completed={completed} // 空配列がデフォルトで入る
                                 setNotStarted={setNotStarted}
                                 setInProgress={setInProgress}
                                 setCompleted={setCompleted}
                             />
-                            <Button backgroundColor="pink" text="削除" />
+                            <Button
+                                backgroundColor="pink"
+                                text="削除"
+                                onClick={() => onClickDelete(index)}
+                            />
                         </li>
                     ))}
                 </ul>
